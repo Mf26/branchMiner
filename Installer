@@ -1,0 +1,17 @@
+progName = "branchMine"
+
+print("Welcome to the branch mining install wizard! I will now ask a few questions. These settings can be changed later.")
+write("Name to run under: ")
+input = read()
+if input == "" then
+	print("Using default: " .. progName)
+else
+	progName = input
+	end
+
+code = http.get("https://raw.githubusercontent.com/Mf26/branchMiner/master/main")
+code = code.readAll()
+prog = io.open(progName, "w")
+io.output(prog)
+io.write(code)
+io.close(prog)
