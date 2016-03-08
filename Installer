@@ -1,7 +1,11 @@
 progName = "branchMine"
+hasStrongbox = "true"
+voidCobble = "true"
+aggressiveMove = "true"
+torchHigh = "true"
 
 print("Welcome to the branch mining install wizard! I will now ask a few questions. These settings can be changed later.")
-write("Name to run under: ")
+write("Program name to run under: ")
 input = read()
 if input == "" then
 	print("Using default: " .. progName)
@@ -9,9 +13,78 @@ else
 	progName = input
 	end
 
+answered = false
+print("Please answer the next few questions as true or false")
+while not answered do
+	write("Thermal Expansion Strongbox?: ")
+	input = read()
+	if input == "false" then
+		hasStrongbox = "false"
+		answered = true
+	else if input == "true" then
+		answered = true
+	else
+		print("Please answer as true or false")
+		end
+	end
+end
+
+answered = false
+while not answered do
+	write("Delete cobblestone?: ")
+	input = read()
+	if input == "false" then
+		voidCobble = "false"
+		answered = true
+	else if input == "true" then
+		answered = true
+	else
+		print("Please answer as true or false")
+		end
+	end
+end
+
+answered = false
+while not answered do
+	write("Aggressive Movement?: ")
+	input = read()
+	if input == "false" then
+		aggressiveMove = "false"
+		answered = true
+	else if input == "true" then
+		answered = true
+	else
+		print("Please answer as true or false")
+		end
+	end
+end
+
+answered = false
+while not answered do
+	write("Torches high?: ")
+	input = read()
+	if input == "false" then
+		torchHigh = "false"
+		answered = true
+	else if input == "true" then
+		answered = true
+	else
+		print("Please answer as true or false")
+		end
+	end
+end
+
 code = http.get("https://raw.githubusercontent.com/Mf26/branchMiner/master/main")
 code = code.readAll()
-prog = io.open(progName, "w")
-io.output(prog)
+progFile = io.open(progName, "w")
+io.output(progFile)
 io.write(code)
-io.close(prog)
+io.close(progFile)
+
+settingsFile = io.open(progName .. "/settings", "w")
+io.output(settingsFile)
+io.write("hasStrongbox: " .. hasStrongbox .. "\n")
+io.write("voidCobble: " .. voidCobble .. "\n")
+io.write("aggressiveMove: " .. aggressiveMove .. "\n")
+io.write("torchHigh: " .. torchHigh .. "\n")
+io.close()

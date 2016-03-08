@@ -46,6 +46,23 @@ turtle.turnLeft()
 turtle.forward()
 end
 
+--Handles emptying turtle inventory into specified loot containers
+function loot()
+turtle.select(3)
+turtle.placeDown()
+for i = 5, 16 do
+	turtle.select(i)
+	turtle.dropDown()
+	end
+turtle.select(3)
+turtle.digDown()
+turtle.select(4)
+turtle.placeDown()
+turtle.select(1)
+turtle.suckDown(turtle.getItemSpace())
+turtle.digDown()
+end
+
 --Handles clearing main shafts, ensures floor is walkable
 function path()
 for i = 1, 36 do
@@ -79,24 +96,12 @@ turtle.turnLeft()
 for d = 1, 40 do
 	digForward()
 	end
-turtle.select(3)
-turtle.placeDown()
-for i = 5, 16 do
-	turtle.select(i)
-	turtle.dropDown()
-	end
-turtle.select(3)
-turtle.digDown()
-turtle.select(4)
-turtle.placeDown()
-turtle.select(1)
-turtle.suckDown(turtle.getItemSpace())
-turtle.digDown()
 turtle.placeUp()
 turtle.down()
 turtle.turnLeft()
 turtle.turnLeft()
 turtle.select(2)
+loot()
 for d = 1, 39 do
 	move()
 	if d % 8 == 0 then
