@@ -1,6 +1,9 @@
 # branchMiner
 Computercraft Turtle Branch Miner
 
+{Install}
+-pastebin run VxFsMAAd
+
 {Description}
 
 {Config Options}

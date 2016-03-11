@@ -136,12 +136,12 @@ turtle.turnLeft()
 for d = 1, 40 do
 	digForward()
 end
+loot()
 turtle.placeUp()
 turtle.down()
 turtle.turnLeft()
 turtle.turnLeft()
 turtle.select(2)
-loot()
 for d = 1, 39 do
 	move()
 	if d % 8 == 0 then
@@ -178,7 +178,7 @@ turtle.placeDown()
 end
 
 --Main code body
-if fuelCheck && turtle.getFuelLevel() < 5000 then
+if fuelCheck and turtle.getFuelLevel() < 5000 then
 	print("Not enough fuel! I need " .. 5000 - turtle.getFuelLevel() .. "more units.")
 	return
 	end
