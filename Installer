@@ -2,7 +2,8 @@ progName = "branchMine"
 hasStrongbox = "true"
 voidCobble = "true"
 aggressiveMove = "true"
-torchHigh = "true"
+fuelCheck = "true"
+craftTorches = "true"
 
 print("Welcome to the branch mining install wizard! I will now ask a few questions. These settings can be changed later.")
 write("Program name to run under: ")
@@ -46,6 +47,36 @@ end
 
 answered = false
 while not answered do
+	write("Require enough fuel?: ")
+	input = read()
+	if input == "false" then
+		fuelCheck = "false"
+		answered = true
+	else if input == "true" then
+		answered = true
+	else
+		print("Please answer as true or false")
+		end
+	end
+end
+
+answered = false
+while not answered do
+	write("Craft extra torches?: ")
+	input = read()
+	if input == "false" then
+		craftTorches = "false"
+		answered = true
+	else if input == "true" then
+		answered = true
+	else
+		print("Please answer as true or false")
+		end
+	end
+end
+
+answered = false
+while not answered do
 	write("Aggressive Movement?: ")
 	input = read()
 	if input == "false" then
@@ -59,32 +90,14 @@ while not answered do
 	end
 end
 
-answered = false
-while not answered do
-	write("Torches high?: ")
-	input = read()
-	if input == "false" then
-		torchHigh = "false"
-		answered = true
-	else if input == "true" then
-		answered = true
-	else
-		print("Please answer as true or false")
-		end
-	end
-end
-
 code = http.get("https://raw.githubusercontent.com/Mf26/branchMiner/master/main")
 code = code.readAll()
 progFile = io.open(progName, "w")
 io.output(progFile)
+io.print("--config\n" .. "--hasStrongbox = true\n")
+io.print("--voidCobble = true\n")
+io.print("aggressiveMove = true\n")
+io.print("--craftTorches = false\n")
+io.print("fuelCheck = true\n")
 io.write(code)
 io.close(progFile)
-
-settingsFile = io.open(progName .. "/settings", "w")
-io.output(settingsFile)
-io.write("hasStrongbox: " .. hasStrongbox .. "\n")
-io.write("voidCobble: " .. voidCobble .. "\n")
-io.write("aggressiveMove: " .. aggressiveMove .. "\n")
-io.write("torchHigh: " .. torchHigh .. "\n")
-io.close()

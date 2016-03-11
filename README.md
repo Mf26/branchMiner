@@ -3,6 +3,8 @@ Computercraft Turtle Branch Miner
 
 {Description}
 
+{Config Options}
+
 How to use:
 
 1. Place turtle on ground.
