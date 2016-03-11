@@ -5,19 +5,23 @@ Commented config options are not yet active.
 
 Config Descriptions
 hasStrongbox: set to true if you have access to Thermal Expansion strongbox
--recommended to use reinforced or better
+-reinforced or better strongbox recommended
 
 voidCobble: set to true if you want all cobblestone deleted from loots
 -recommended if you have a smaller strongbox, or don't need extra cobblestone
 
 aggressiveMove: set to true if you want turtle to attack if entity blocks path
--recommended to turn off if you run close behind turtle
+-turn off if you tend to run close behind turtle
 
 craftTorches: set to true if you want the turtle to craft extra torches
 -recommended to turn off if you have access to strongboxes
 
 fuelCheck: set to true if you want turtle to not begin without enough fuel
--recommended
+-turtle uses 5000 fuel per run
+
+wireless: set to true if you want turtle to update status wirelessly
+-use with wireless pocket computer or terminal glasses
+
 --]]
 
 --Handles forward motion, executes anti-blocking behavior
@@ -74,17 +78,28 @@ end
 function loot()
 turtle.select(3)
 turtle.placeDown()
+chest = peripheral.wrap("bottom")
 for i = 5, 16 do
 	turtle.select(i)
 	turtle.dropDown()
 end
+if voidCobble then
+	slots = chest.getInventorySize()
+	for i = 1, slots do
+		stack = chest.getStackInSlot(i)
+		if stack and stack.name == "cobblestone" then
+			chest.destroyStack(i)
+		end
+	end
+end
+chest.condenseItems()
 turtle.select(3)
 turtle.digDown()
 turtle.select(4)
-turtle.placeDown()
+turtle.placeUp()
 turtle.select(1)
-turtle.suckDown(turtle.getItemSpace())
-turtle.digDown()
+turtle.suckUp(turtle.getItemSpace())
+turtle.digUp()
 end
 
 --Handles clearing main shafts, ensures floor is walkable
@@ -92,6 +107,7 @@ function path()
 for i = 1, 36 do
 	digForward()
 end
+loot()
 turtle.down()
 turtle.turnLeft()
 turtle.turnLeft()

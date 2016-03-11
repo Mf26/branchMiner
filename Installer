@@ -4,6 +4,7 @@ voidCobble = "true"
 aggressiveMove = "true"
 fuelCheck = "true"
 craftTorches = "true"
+wireless = "false"
 
 print("Welcome to the branch mining install wizard! I will now ask a few questions. These settings can be changed later.")
 write("Program name to run under: ")
@@ -90,14 +91,30 @@ while not answered do
 	end
 end
 
+answered = false
+while not answered do
+	write("Wireless status?: ")
+	input = read()
+	if input == "false" then
+		wireless = "false"
+		answered = true
+	else if input == "true" then
+		answered = true
+	else
+		print("Please answer as true or false")
+		end
+	end
+end
+
 code = http.get("https://raw.githubusercontent.com/Mf26/branchMiner/master/main")
 code = code.readAll()
 progFile = io.open(progName, "w")
 io.output(progFile)
-io.print("--config\n" .. "--hasStrongbox = true\n")
-io.print("--voidCobble = true\n")
-io.print("aggressiveMove = true\n")
-io.print("--craftTorches = false\n")
-io.print("fuelCheck = true\n")
+io.print("--config\n" .. "--hasStrongbox = " .. hasStrongbox .. "\n")
+io.print("voidCobble = " .. voidCobble .. "\n")
+io.print("aggressiveMove = " .. aggressiveMove .. "\n")
+io.print("--craftTorches = " .. craftTorches .. "\n")
+io.print("fuelCheck = " .. fuelCheck .. "\n")
+io.print("--wireless = " .. wireless .. "\n")
 io.write(code)
 io.close(progFile)
