@@ -194,7 +194,7 @@ end
 fuel = turtle.getFuelLevel()
 if fuelCheck and fuel < 5000 then
 	needed = 5000 - fuel
-	print("Not enough fuel! I need " .. needed .. " more.\n(" .. math.ceil(needed / 80) .. " coal)"
+	print("Not enough fuel! I need " .. needed .. " more.\n(" .. math.ceil(needed / 80) .. " coal)")
 	return
 	end
 term.clear()
