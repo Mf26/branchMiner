@@ -6,6 +6,8 @@ fuelCheck = "true"
 craftTorches = "true"
 wireless = "false"
 
+term.clear()
+term.setCursorPos(1,1)
 print("Welcome to the branch mining install wizard! I will now ask a few questions. These settings can be changed later.")
 write("Program name to run under: ")
 input = read()
