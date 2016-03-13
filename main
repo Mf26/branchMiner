@@ -39,15 +39,14 @@ end
 end
 
 function move(dir)
-if dir == "down"
+if dir == "down" then
 	while not turtle.moveDown() do
 		turtle.moveDown()
 	end
-else if dir == "up" do
+else if dir == "up" then
 	while not turtle.moveUp() do
 		turtle.moveUp()
 	end
-end
 end
 end
 end
@@ -192,8 +191,10 @@ turtle.placeDown()
 end
 
 --Main code body
-if fuelCheck and turtle.getFuelLevel() < 5000 then
-	print("Not enough fuel! I need " .. 5000 - turtle.getFuelLevel() .. "more units.")
+fuel = turtle.getFuelLevel()
+if fuelCheck and fuel < 5000 then
+	needed = 5000 - fuel
+	print("Not enough fuel! I need " .. needed .. " more.\n(" .. math.ceil(needed / 80) .. " coal)"
 	return
 	end
 term.clear()
