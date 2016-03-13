@@ -40,12 +40,12 @@ end
 
 function move(dir)
 if dir == "down" then
-	while not turtle.moveDown() do
-		turtle.moveDown()
+	while not turtle.down() do
+		turtle.down()
 	end
 else if dir == "up" then
-	while not turtle.moveUp() do
-		turtle.moveUp()
+	while not turtle.up() do
+		turtle.up()
 	end
 end
 end
