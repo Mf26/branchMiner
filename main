@@ -66,11 +66,11 @@ turtle.digDown()
 end
 
 --Handles digging of initial mineshaft and central chamber
-function shaft(depth)
-while depth >= 14 do
+function shaft(current, target)
+while current >= target do
 	turtle.digDown()
 	move("down")
-	depth = depth - 1
+	current = current - 1
 end
 turtle.digDown()
 turtle.placeDown()
@@ -200,7 +200,10 @@ if fuelCheck and fuel < 5000 then
 term.clear()
 term.setCursorPos(1,1)
 write("Enter current Y: ")
-shaft(tonumber(read()))
+current = tonumber(read())
+write("Enter target Y: ")
+target = tonumber(read())
+shaft(current, target)
 for s = 1, 4 do
 	path()
 	for i = 1, 12 do 
