@@ -26,44 +26,47 @@ wireless: set to true if you want turtle to update status wirelessly
 
 --Handles forward motion, executes anti-blocking behavior
 function moveF()
-while not turtle.forward() do
-	if turtle.detect() then
-		turtle.dig() 
-	else
-		if aggressiveMove then
-			turtle.attack()
+	while not turtle.forward() do
+		if turtle.detect() then
+			turtle.dig() 
+		else
+			if aggressiveMove then
+				turtle.attack()
+			end
 		end
-end
-	sleep(.5)
-end
+		sleep(.5)
+	end
 end
 
 function move(dir)
-if dir == "down" then
-	while not turtle.down() do
-		turtle.down()
+	if dir == "down" then
+		while not turtle.down() do
+			turtle.down()
+			end
+	else if dir == "up" then
+		while not turtle.up() do
+			turtle.up()
+			end
+		end
 	end
-else if dir == "up" then
-	while not turtle.up() do
-		turtle.up()
-	end
-end
-end
 end
 
 --Handles digging of paths, prevents gravel blocking
 function digForward()
-while turtle.detect() do
-	turtle.dig()
-	sleep(.5)
-end
-moveF()
-while turtle.detectUp() do
-	turtle.digUp()
-	sleep(.5)
-end
-turtle.digDown()
-end
+	while turtle.detect() do
+		turtle.dig()
+		sleep(.5)
+		end
+	moveF()
+	while turtle.detectUp() do
+		turtle.digUp()
+		sleep(.5)
+	end
+	turtle.digDown()
+	if turtle.getItemCount(16) > 0 then
+		loot()
+		end
+	end
 
 --Handles digging of initial mineshaft and central chamber
 function shaft(current, target)
@@ -89,30 +92,20 @@ end
 
 --Handles emptying turtle inventory into specified loot containers
 function loot()
-turtle.select(3)
-turtle.placeDown()
-chest = peripheral.wrap("bottom")
-for i = 5, 16 do
-	turtle.select(i)
-	turtle.dropDown()
-end
-if voidCobble then
-	slots = chest.getInventorySize()
-	for i = 1, slots do
-		stack = chest.getStackInSlot(i)
-		if stack and stack.name == "cobblestone" then
-			chest.destroyStack(i)
+	turtle.select(3)
+	turtle.placeDown()
+	chest = peripheral.wrap("bottom")
+	for i = 5, 16 do
+		turtle.select(i)
+		turtle.dropDown()
 		end
-	end
-end
-chest.condenseItems()
-turtle.select(3)
-turtle.digDown()
-turtle.select(4)
-turtle.placeUp()
-turtle.select(1)
-turtle.suckUp(turtle.getItemSpace())
-turtle.digUp()
+	turtle.select(3)
+	turtle.digDown()
+	turtle.select(4)
+	turtle.placeUp()
+	turtle.select(1)
+	turtle.suckUp(turtle.getItemSpace())
+	turtle.digUp()
 end
 
 --Handles clearing main shafts, ensures floor is walkable
