@@ -48,6 +48,7 @@ function move(dir)
 			end
 		end
 	end
+	end
 
 --Handles digging of paths, prevents gravel blocking
 function digForward()
@@ -102,7 +103,7 @@ function craftTorches()
 		turtle.drop()
 		end
 	turtle.select(1)
-	turtle.craft(math.floor(torchDemand / 4)
+	turtle.craft(math.floor(torchDemand / 4))
 	turtle.dig()
 	turtle.select(16)
 	turtle.transferTo(4)
