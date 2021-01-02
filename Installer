@@ -20,7 +20,7 @@ else
 answered = false
 print("Please answer the next few questions as true or false")
 while not answered do
-	write("Thermal Expansion Strongbox?: ")
+	write("Strongbox?: ")
 	input = read()
 	if input == "false" then
 		hasStrongbox = "false"
@@ -111,10 +111,10 @@ end
 code = http.get("https://raw.githubusercontent.com/Mf26/branchMiner/master/main")
 code = code.readAll()
 progFile = io.open(progName, "w")
-progFile:write("--config\n" .. "--hasStrongbox = " .. hasStrongbox .. "\n")
+progFile:write("--config\n" .. "hasStrongbox = " .. hasStrongbox .. "\n")
 progFile:write("voidCobble = " .. voidCobble .. "\n")
 progFile:write("aggressiveMove = " .. aggressiveMove .. "\n")
-progFile:write("--craftTorches = " .. craftTorches .. "\n")
+progFile:write("craftTorches = " .. craftTorches .. "\n")
 progFile:write("fuelCheck = " .. fuelCheck .. "\n")
 progFile:write("--wireless = " .. wireless .. "\n")
 progFile:write(code)
