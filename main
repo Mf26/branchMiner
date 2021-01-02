@@ -49,7 +49,6 @@ function move(dir)
 			end
 		end
 	end
-end
 
 --Handles digging of paths, prevents gravel blocking
 function digForward()
@@ -61,127 +60,161 @@ function digForward()
 	while turtle.detectUp() do
 		turtle.digUp()
 		sleep(.5)
-	end
+		end
 	turtle.digDown()
-	if turtle.getItemCount(16) > 0 then
+	if turtle.getItemCount(15) > 0 then
 		loot()
 		end
 	end
 
 --Handles digging of initial mineshaft and central chamber
 function shaft(current, target)
-while current >= target do
+	while current >= target do
+		turtle.digDown()
+		move("down")
+		current = current - 1
+		end
 	turtle.digDown()
-	move("down")
-	current = current - 1
-end
-turtle.digDown()
-turtle.placeDown()
-digForward()
-turtle.turnLeft()
-for i = 1, 3 do
+	turtle.placeDown()
 	digForward()
 	turtle.turnLeft()
+	for i = 1, 3 do
+		digForward()
+		turtle.turnLeft()
+		digForward()
+		end
 	digForward()
-end
-digForward()
-turtle.back()
-turtle.turnLeft()
-turtle.forward()
-end
+	turtle.back()
+	turtle.turnLeft()
+	turtle.forward()
+	end
 
---Handles emptying turtle inventory into specified loot containers
+--Handles crafting additional torches. Best used only if you do not have strongboxes.
+function craftTorches()
+	torchDemand = turtle.getItemSpace(1)
+	turtle.select(16)
+	turtle.transferTo(12)
+	turtle.select(4)
+	turtle.transferTo(16)
+	turtle.select(3)
+	turtle.place()
+	for i = 1, 3 do
+		turtle.select(i)
+		turtle.drop()
+		end
+	turtle.select(1)
+	turtle.craft(math.floor(torchDemand / 4)
+	turtle.dig()
+	turtle.select(16)
+	turtle.transferTo(4)
+	turtle.select(12)
+	turtle.dropDown()
+	end
+
+--Handles emptying turtle inventory into specified loot containers.
 function loot()
 	turtle.select(3)
 	turtle.placeDown()
-	chest = peripheral.wrap("bottom")
-	for i = 5, 16 do
+	for i = 5, 15 do
+		if craftTorches then
+			currentItem = turtle.getItemDetail(i)
+			if string.find(currentItem.name, "coal") then
+				turtle.select(i)
+				turtle.transferTo(16)
+				end
+			end
 		turtle.select(i)
 		turtle.dropDown()
 		end
-	turtle.select(3)
-	turtle.digDown()
-	turtle.select(4)
-	turtle.placeUp()
-	turtle.select(1)
-	turtle.suckUp(turtle.getItemSpace())
-	turtle.digUp()
-end
+	if craftTorches then
+		craftTorches()
+	else
+		turtle.select(4)
+		turtle.placeUp()
+		turtle.select(1)
+		turtle.suckUp(turtle.getItemSpace())
+		turtle.digUp()
+		end
+	if hasStrongbox then
+		turtle.select(3)
+		turtle.digDown()
+		end
+	end
 
 --Handles clearing main shafts, ensures floor is walkable
 function path()
-for i = 1, 36 do
-	digForward()
-end
-loot()
-move("down")
-turtle.turnLeft()
-turtle.turnLeft()
-turtle.select(2)
-for i = 1, 35 do
-	if not turtle.detectDown() then
-		turtle.placeDown()
-	end
+	for i = 1, 36 do
+		digForward()
+		end
+	loot()
+	move("down")
+	turtle.turnLeft()
+	turtle.turnLeft()
+	turtle.select(2)
+	for i = 1, 35 do
+		if not turtle.detectDown() then
+			turtle.placeDown()
+			end
+		moveF()
+		end
+	move("up")
 	moveF()
-end
-move("up")
-moveF()
-turtle.turnLeft()
-turtle.turnLeft()
-turtle.select(1)
-end
+	turtle.turnLeft()
+	turtle.turnLeft()
+	turtle.select(1)
+	end
 
 --Handles digging of branch shafts
 function branch()
-for i = 1, 3 do
-	digForward()
-end
-turtle.placeDown()
-turtle.turnLeft()
+	for i = 1, 3 do
+		digForward()
+		end
+	turtle.placeDown()
+	turtle.turnLeft()
 
-for d = 1, 40 do
-	digForward()
-end
-loot()
-turtle.placeUp()
-move("down")
-turtle.turnLeft()
-turtle.turnLeft()
-turtle.select(2)
-for d = 1, 39 do
+	for d = 1, 40 do
+		digForward()
+		end
+	loot()
+	turtle.placeUp()
+	move("down")
+	turtle.turnLeft()
+	turtle.turnLeft()
+	turtle.select(2)
+	for d = 1, 39 do
+		moveF()
+		if d % 8 == 0 then
+			turtle.select(1)
+			move("up")
+			turtle.placeUp()
+			move("down")
+			turtle.select(2)
+			end
+		if not turtle.detectDown() then
+			turtle.placeDown()
+			end
+		end
+	move("up")
 	moveF()
-	if d % 8 == 0 then
-		turtle.select(1)
-		move("up")
-		turtle.placeUp()
-		move("down")
-		turtle.select(2)
+	turtle.turnLeft()
+	turtle.select(1)
 	end
-    if not turtle.detectDown() then
-		turtle.placeDown()
-	end
-end
-move("up")
-moveF()
-turtle.turnLeft()
-turtle.select(1)
-end
 
 --Handles turtle returning to central chamber after a main shaft is complete
 function returnToStation()
-t = 0
-turtle.turnLeft()
-turtle.turnLeft()
-while t < 12 do
-	moveF()
-	if turtle.detectDown() then
-		turtle.digDown()
-		t = t + 1
+	t = 0
+	turtle.turnLeft()
+	turtle.turnLeft()
+	while t < 12 do
+		moveF()
+		if turtle.detectDown() then
+			turtle.digDown()
+			t = t + 1
+			end
+		end
+	turtle.turnLeft()
+	turtle.placeDown()
 	end
-end
-turtle.turnLeft()
-turtle.placeDown()
-end
 
 --Main code body
 fuel = turtle.getFuelLevel()
@@ -201,6 +234,6 @@ for s = 1, 4 do
 	path()
 	for i = 1, 12 do 
 		branch()
-	end
+		end
 	returnToStation()
-end
+	end
